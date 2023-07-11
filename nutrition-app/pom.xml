@@ -9,7 +9,7 @@
     <maven.compiler.target>11</maven.compiler.target>
   </properties>
   <version>1.0-SNAPSHOT</version>
-  <name>SpringMvcTest Maven Webapp</name>
+	<name>NutritionApp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
@@ -29,15 +29,35 @@
       <artifactId>spring-webmvc</artifactId>
       <version>4.3.3.RELEASE</version>
     </dependency>
+    <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>5.6.14.Final</version>
+</dependency>
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.28</version>
+</dependency>
   </dependencies>
   <build>
-    <finalName>SpringMvcTest</finalName>
+    <finalName>NutritionApp</finalName>
     <plugins>
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
         <version>9.4.51.v20230217</version>
       </plugin>
+     <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-war-plugin</artifactId>
+    <version>3.3.1</version>
+</plugin>
+<plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.8.1</version>
+</plugin>
     </plugins>
   </build>
 </project>
