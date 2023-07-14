@@ -8,6 +8,7 @@
 <body>
     <form action="searchfood">
 <input type="search"  name="item1"><br>
+${nm}
   
 </form>
 </body>

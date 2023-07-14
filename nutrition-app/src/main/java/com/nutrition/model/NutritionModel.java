@@ -3,15 +3,13 @@ package com.nutrition.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
-	public class NutritionModel {
-		@Id
+public class NutritionModel {
+		
 		private int food_id;
 		private String food_name;
 		private int food_quantity;
 		private int food_calories;
-		
-		
+
 		public int getFood_id() {
 			return food_id;
 		}
