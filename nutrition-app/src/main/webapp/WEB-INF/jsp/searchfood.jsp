@@ -43,7 +43,7 @@ function weightconverter(valnum){
 	var convertedQtyInGr = converter.mass(document.getElementById("newQuantity").value).from(valnum).to('g').value;
 	/* console.log(convertedQtyInGr); */
 	var newcalories=(fooddaocalories*convertedQtyInGr)/fooddaoquantity;
-	/* console.log(newcalories); */
+	
 	document.getElementById("calories").value = newcalories;
 }
 </script>
