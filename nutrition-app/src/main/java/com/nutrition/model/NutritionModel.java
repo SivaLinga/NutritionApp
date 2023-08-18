@@ -1,42 +1,63 @@
 package com.nutrition.model;
 
+import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Entity
 public class NutritionModel {
-		
-		private int food_id;
-		private String food_name;
-		private int food_quantity;
-		private int food_calories;
+		@Id
+		@GeneratedValue
+		private int foodid;
+		@Column(unique=true)
+		private String foodname;
+		private int quantity;
+		private String servingsize;
+		private int calories;
 
-		public int getFood_id() {
-			return food_id;
+
+		public String getFoodname() {
+			return foodname;
 		}
-		public void setFood_id(int food_id) {
-			this.food_id = food_id;
+
+		public void setFoodname(String foodname) {
+			this.foodname = foodname;
 		}
-		public String getFood_name() {
-			return food_name;
+		
+
+		public int getQuantity() {
+			return quantity;
 		}
-		public void setFood_name(String food_name) {
-			this.food_name = food_name;
+
+		public void setQuantity(int quantity) {
+			this.quantity = quantity;
 		}
-		public int getFood_quantity() {
-			return food_quantity;
+
+		public int getCalories() {
+			return calories;
 		}
-		public void setFood_quantity(int food_quantity) {
-			this.food_quantity = food_quantity;
+
+		public void setCalories(int calories) {
+			this.calories = calories;
 		}
-		public int getFood_calories() {
-			return food_calories;
+		
+
+		public String getServingsize() {
+			return servingsize;
 		}
-		public void setFood_calories(int food_calories) {
-			this.food_calories = food_calories;
+
+		public void setServingsize(String servingsize) {
+			this.servingsize = servingsize;
 		}
+
 		@Override
 		public String toString() {
-			return "NutritionModel [food_id=" + food_id + ", food_name=" + food_name + ", food_quantity=" + food_quantity
-					+ ", food_calories=" + food_calories + "]";
+			return "NutritionModel [foodname=" + foodname + ", quantity=" + quantity + ", calories=" + calories
+					+ ", servingsize=" + servingsize + "]";
 		}
-	}
+
+}
