@@ -1,22 +1,89 @@
 package com.nutrition.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nutrition.model.NutritionModel;
+import com.nutrition.service.NutritionService;
+import java.util.*;
 
 @Controller
+@ControllerAdvice
 public class NutritionController {
+	@Autowired
+	NutritionService nutritionService;
+	NutritionModel fooddao;
 
-    @RequestMapping(value = "/hello_world", method = RequestMethod.GET)
-    public String printHelloWorld(ModelMap modelMap){
+	@RequestMapping("home")
+	public String home() {
+		return "home";
+	}
 
-        // add attribute to load modelMap
-        modelMap.addAttribute("message",
-                "Hello World and Welcome to Spring MVC!");
+	// ajax call
+	@GetMapping("foodnamelist")
+	@ResponseBody
+	public String getsearchfood(@RequestParam("foodName") String foodname) {
+		List<String> foodnamelist = new ArrayList<String>();
+		List<NutritionModel> list;
+		list = nutritionService.getFoodList(foodname);
+		for (NutritionModel nutritionModel : list) {
+			foodnamelist.add(nutritionModel.getFoodname());
+		}
 
-        // return the name of the file to be loaded "hello_world.jsp"
-        return "hello_world";
-    }
+		ObjectMapper Obj = new ObjectMapper();
+		String jsonStr = null;
+		try {
+			jsonStr = Obj.writeValueAsString(foodnamelist);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return jsonStr;
+
+	}
+
+	@RequestMapping("searchfood")
+	public ModelAndView searchfood(@RequestParam("fooditem") String foodname, ModelMap map) {
+		ModelAndView mv = new ModelAndView();
+		NutritionModel fooddao = nutritionService.getSearchFood(foodname);
+		if (fooddao == null) {
+			String alertmsg="Sorry, we have no results for \""+foodname+"\" please try another search.";
+			mv.addObject("msg",alertmsg);
+			mv.setViewName("home");
+		} else {
+			map.addAttribute("fooddao", fooddao);
+			mv.addObject("fooddao", fooddao);
+			mv.setViewName("searchfood");
+		}
+		return mv;
+	}
+
+	@RequestMapping("customfood")
+	public String customfood() {
+
+		return "customfood";
+	}
+
+	@RequestMapping(value = "foodservice")
+	public ModelAndView foodService(@ModelAttribute("food") NutritionModel nutritionModel, BindingResult result) {
+		// System.out.println("nutritionmodel executed");
+		// System.out.println(nutritionModel);
+		fooddao = nutritionService.createFood(nutritionModel);
+		ModelAndView mv = new ModelAndView();
+		// System.out.println(fooddao);
+		mv.addObject("fooddao", fooddao);
+		mv.setViewName("home");
+		return mv;
+	}
 
 }
