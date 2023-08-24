@@ -37,13 +37,13 @@ public class NutritionRepo {
 	}
 
 	public NutritionModel getSearchFood(String foodname) {
+		NutritionModel nutritionmodel  = null;
 		Session session = getHibernateSession();
 		Transaction tx = (Transaction) session.beginTransaction();
 		Criteria query = session.createCriteria(NutritionModel.class);
 		query.add(Restrictions.like("foodname", foodname, MatchMode.ANYWHERE));
-	    List<NutritionModel> list = query.list();	    
-		tx.commit();
-		NutritionModel nutritionmodel = list.get(0);
+	    List<NutritionModel> list = query.list();
+	    if(!list.isEmpty()) nutritionmodel = list.get(0);
 		return nutritionmodel;
 	}
 

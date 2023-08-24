@@ -11,8 +11,19 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <body>
-<form action="searchfood" id="searchform">
-	<!-- <input name="item1" type="search"> -->
+<script>
+    function checkempty(form) {
+        if (form.fooditem.value == null ||
+            form.fooditem.value == undefined ||
+            form.fooditem.value.length == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>
+${msg}
+<form onsubmit="return checkempty(form1)" action="searchfood" id="searchform" name="form1">
 	<input name="fooditem" list="datalistOptions" id="foodname" placeholder="Search Food Database">
 	<datalist id="datalistOptions">
 	</datalist>
@@ -46,6 +57,7 @@ function searchViaAjax(searchText) {
 		timeout : 100000,
 		success : function(data) {
 			console.log("SUCCESS: ", data);
+			
 			$('#datalistOptions').empty();
 			$.each(data, function (i, item) {
 			    $('#datalistOptions').append($('<option>', { 
@@ -53,6 +65,7 @@ function searchViaAjax(searchText) {
 			        text : item
 			    }));
 			});
+			
 			
 		},
 		error : function(e) {

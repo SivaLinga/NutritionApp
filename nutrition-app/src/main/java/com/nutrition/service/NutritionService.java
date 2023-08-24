@@ -30,11 +30,7 @@ public class NutritionService {
 	}
 
 	public NutritionModel getSearchFood(String foodname) {
-		fooddao= nutritionRepo.getSearchFood(foodname);
-//		System.out.println(list);
-//		System.out.println("service method call");
-		return fooddao;
-		
+		return nutritionRepo.getSearchFood(foodname);		
 	}
 
 }

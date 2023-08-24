@@ -34,7 +34,8 @@ public class NutritionController {
 	@ResponseBody
 	public String getsearchfood(@RequestParam("foodName") String foodname) {
 		List<String> foodnamelist = new ArrayList<String>();
-		List<NutritionModel> list = nutritionService.getFoodList(foodname);
+		List<NutritionModel> list;
+		list = nutritionService.getFoodList(foodname);
 		for (NutritionModel nutritionModel : list) {
 			foodnamelist.add(nutritionModel.getFoodname());
 		}
@@ -48,15 +49,22 @@ public class NutritionController {
 			e.printStackTrace();
 		}
 		return jsonStr;
+
 	}
 
 	@RequestMapping("searchfood")
-	public ModelAndView searchfood(@RequestParam("fooditem") String foodname,ModelMap map) {
-		fooddao=nutritionService.getSearchFood(foodname);
-		ModelAndView mv=new ModelAndView();
-		map.addAttribute("fooddao",fooddao);
-        mv.addObject("fooddao",fooddao);
-        mv.setViewName("searchfood");
+	public ModelAndView searchfood(@RequestParam("fooditem") String foodname, ModelMap map) {
+		ModelAndView mv = new ModelAndView();
+		NutritionModel fooddao = nutritionService.getSearchFood(foodname);
+		if (fooddao == null) {
+			String alertmsg="Sorry, we have no results for \""+foodname+"\" please try another search.";
+			mv.addObject("msg",alertmsg);
+			mv.setViewName("home");
+		} else {
+			map.addAttribute("fooddao", fooddao);
+			mv.addObject("fooddao", fooddao);
+			mv.setViewName("searchfood");
+		}
 		return mv;
 	}
 
@@ -71,8 +79,8 @@ public class NutritionController {
 		// System.out.println("nutritionmodel executed");
 		// System.out.println(nutritionModel);
 		fooddao = nutritionService.createFood(nutritionModel);
-		ModelAndView mv=new ModelAndView();
-		//System.out.println(fooddao);
+		ModelAndView mv = new ModelAndView();
+		// System.out.println(fooddao);
 		mv.addObject("fooddao", fooddao);
 		mv.setViewName("home");
 		return mv;
